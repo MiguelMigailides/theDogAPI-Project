@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <title>Informações de Cachorros</title>
+  </head>
+  <body>
+    <div class="main">
+      <div class="container">
+        <h1>Descubra raças de Cachorros</h1>
+        <div class="content">
+            <div id="dogInfo"></div>
+          </div>
+          <div class="">
+            <button class="btn" id="generatorDogData">Gerar dados de Cachorros</button>
+          </div>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById("generatorDogData").addEventListener("click", async function () {
+          const response = await fetch("/dog-data");
+          const data = await response.json();
+
+          const dogInfoDiv = document.getElementById("dogInfo");
+
+          if (data.error) {
+            dogInfoDiv.innerHTML = `<p>${data.error}</p>`;
+          } else {
+            dogInfoDiv.innerHTML = `
+                    <h2>Raça: ${data.name}</h2>
+                    <h3>Criado para: ${data.bredFor}</h3>
+                    <h3>Grupa da raça: ${data.breedGroup}</h3>
+                    <h3>Expectativa de Vida: ${data.age}</h3>
+                    <h3>Temperamento: ${data.temperament}</h3>
+                    <img class="imgDog" src="${data.imgUrl}" alt="Foto do cachorro da raça ${data.name}" style="width: 300px; height: auto;">
+                    `;
+          }
+        });
+    </script>
+  </body>
+</html>
